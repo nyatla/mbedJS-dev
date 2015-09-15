@@ -372,20 +372,17 @@ static void ethernet_handler(void* i_param,NyLPC_TiEthernetDevice_EVENT i_type)
 void NyLPC_cMiMicIpNetIf_sendArpRequest(const struct NyLPC_TIPv4Addr* i_addr)
 {
 	NyLPC_TcMiMicIpNetIf_t* inst=_NyLPC_TcMiMicIpNetIf_inst;
-    void* p;
     NyLPC_TUInt16 tx_len;
     struct TEthPacket* ethbuf;
-    //システムTxBufを得る
-    ethbuf=(struct TEthPacket*)NyLPC_cMiMicIpNetIf_allocSysTxBuf();
+    //システムTXメモリを得てイーサフレームのポインタを復元
+    ethbuf=(struct TEthPacket*)(((struct NyLPC_TEthernetIIHeader*)NyLPC_cMiMicIpNetIf_allocSysTxBuf()-1));
     //ARPパケットを作る。
     NyLPC_TArpHeader_setArpRequest(&(ethbuf->data.arp),inst->_netinfo.current_config->ip_addr,&(inst->_netinfo.current_config->eth_mac),i_addr);
     tx_len=NyLPC_TEthernetIIHeader_setArpTx(&(ethbuf->header),&(inst->_netinfo.current_config->eth_mac));
     //送信
-    p=((struct NyLPC_TEthernetIIHeader*)ethbuf)-1;
-
     NyLPC_cMutex_lock(&(inst->_mutex));
-    NyLPC_iEthernetDevice_sendTxEthFrame(inst->_ethif,p,tx_len);
-    NyLPC_iEthernetDevice_releaseTxBuf(inst->_ethif,p);
+    NyLPC_iEthernetDevice_sendTxEthFrame(inst->_ethif,ethbuf,tx_len);
+    NyLPC_iEthernetDevice_releaseTxBuf(inst->_ethif,ethbuf);//NyLPC_cMiMicIpNetIf_releaseTxBufの代用だから元のイーサフレームメモリの値で開放
     NyLPC_cMutex_unlock(&(inst->_mutex));
 }
 
