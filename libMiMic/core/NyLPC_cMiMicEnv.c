@@ -1,7 +1,7 @@
 #include "NyLPC_cMiMicEnv.h"
 #include "NyLPC_netif.h"
 
-const static char* VERSION="MiMic/1.7.1";
+const static char* VERSION="MiMic/1.7.2";
 
 #if NyLPC_MCU==NyLPC_MCU_LPC4088
 const static char* MCU="LPC4088";
