@@ -10,7 +10,7 @@
 #include "EthDev_LPC17xx.h"
 #include "NyLPC_os.h"
 #include "LPC17xx.h"
-#include "NyLPC_cEthernetMM.h"
+#include "../NyLPC_cEthernetMM.h"
 /* If no buffers are available, then wait this long before looking again.... */
 #define emacBUFFER_WAIT_DELAY_MS		 3
 #define emacBUFFER_WAIT_EMPTY_DELAY_MS	10

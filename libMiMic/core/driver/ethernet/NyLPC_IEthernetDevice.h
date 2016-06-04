@@ -7,7 +7,7 @@
 #ifndef NyLPC_IEthernetDevice_h
 #define NyLPC_IEthernetDevice_h
 #include "NyLPC_stdlib.h"
-#include "../../../netif/NyLPC_NetIf_ip_types.h"
+#include "../../netif/NyLPC_NetIf_ip_types.h"
 
 
 #ifdef __cplusplus
